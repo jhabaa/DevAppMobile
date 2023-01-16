@@ -7,15 +7,24 @@
 
 import SwiftUI
 
+
 struct ContentView: View {
+    @EnvironmentObject var current_user:User_DATA
+    @Environment(\.scenePhase) private var scenePhase // Pour l'enregistrement automatique
+    @State private var user_data = User_DATA()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        GeometryReader {
+           
+            GeometryProxy in
+            if (current_user.user.authentificated == true){
+                Menu().transition(.identity)
+            }else{
+                Notiifcation(textToShow: "Welcome")
+                LoginScreen().transition(.identity)
+            }
         }
-        .padding()
+        .preferredColorScheme(.dark)
     }
 }
 
